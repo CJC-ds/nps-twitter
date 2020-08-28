@@ -37,7 +37,7 @@ def get_replies(api, twitter_user, tweet_id):
             tweet_mode='extended',
             timeout=999999).items(1000)
             if hasattr(tweet, 'in_reply_to_status_id_str')
-            if (tweet.in_reply_to_status_id_str==tweet_id)
+            if (tweet.in_reply_to_status_id_str==str(tweet_id))
     ]
     return replies
 
@@ -102,9 +102,14 @@ def main():
         file_name = 'replies_to_'+tweet_id+'.csv'
         df.to_csv(file_name, index=False)
         print('Saved successfully as '+file_name)
+        print(str(df.shape[0])+' row retrieved.')
         print('Done.')
-    except twitter.error.TwitterError as e:
-        print('Caught twitter api error: %s', e)
+    except tweepy.error.TweepError as e:
+        print('API usage rate exceeded.')
+        print(str(e))
+        print('Failed to collect data.')
+        print('Try again in 15 mins.')
+
 
 if __name__ == '__main__':
     main()
