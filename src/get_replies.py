@@ -46,23 +46,65 @@ def main():
     twitter_user = input('Thread owner: ')# e.g. 'eigenbom'
     tweet_id = input('Thread id: ')# e.g. '1299114959792611328'
     api = setup_api_config(path)
+
     try:
         replies = get_replies(
             api=api,
             twitter_user=twitter_user,
             tweet_id=tweet_id
         )
+        # Save full_text
         t = [reply._json['full_text'] for reply in replies]
-        t_series = pd.Series(t, name='replies', dtype='string')
+        t_series = pd.Series(
+            t,
+            name='full_text',
+            dtype='string'
+        )
+        # Save created_at
+        ca = [reply._json['created_at'] for reply in replies]
+        ca_series = pd.Series(
+            ca,
+            name='created_at',
+            dtype='string'
+        )
+        # Save favorite_count
+        fc = [reply._json['favorite_count'] for reply in replies]
+        fc_series = pd.Series(
+            fc,
+            name='favorite_count',
+            dtype='int64'
+        )
+        # Save retweet_count
+        rtc = [reply._json['retweet_count'] for reply in replies]
+        rtc_series = pd.Series(
+            rtc,
+            name='retweet_count',
+            dtype='int64'
+        )
+        # Save user.location
+        ul = [reply._json['user']['location'] for reply in replies]
+        ul_series = pd.Series(
+            ul,
+            name='user_location',
+            dtype='string'
+        )
+
+        # Combine the columns
+        df = pd.concat([
+            t_series,
+            rtc_series,
+            fc_series,
+            ul_series,
+            ca_series],
+            axis=1
+        )
         print('Saving...')
         file_name = 'replies_to_'+tweet_id+'.csv'
-        t_series.to_csv(file_name, index=False)
-        print('Saved successfully as %s', file_name)
+        df.to_csv(file_name, index=False)
+        print('Saved successfully as '+file_name)
         print('Done.')
     except twitter.error.TwitterError as e:
         print('Caught twitter api error: %s', e)
-
-
 
 if __name__ == '__main__':
     main()
