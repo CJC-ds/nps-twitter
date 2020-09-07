@@ -4,7 +4,7 @@ from nltk.corpus import stopwords
 import re
 
 def read_data(tweet_id):
-    data = pd.read_csv('src/tweet_dump/replies_to_'+tweet_id+'.csv')
+    data = pd.read_csv('tweet_dump/replies_to_'+tweet_id+'.csv')
     return data
 
 def remove_user_mention(data_series):
@@ -32,7 +32,7 @@ def remove_stop_words(dataframe):
 
 def stem_words(dataframe_text_processed):
     ps = PorterStemmer()
-    dataframe_text_processed['stemmed'] = dataframe_text_processed['processed_']\
+    dataframe_text_processed['stemmed'] = dataframe_text_processed['processed_text']\
         .apply(lambda x: [ps.stem(i) for i in x if i != ''])
     return dataframe_text_processed
 
@@ -49,20 +49,26 @@ def main():
         data = remove_stop_words(data)
         print('Stop words removed.')
         print('processed_text column added.')
-    except:
+    except Exception as e:
         print('Error in removing stop words.')
+        print(e)
 
     try:
         print('Stemming words...')
         data = stem_words(data)
         print('Stemmed words.')
         print('stemmed column added.')
-    except:
+    except Exception as e:
         print('Error in stemming words.')
+        print(e)
 
-    print('Saving data file as '+str(tweet_id))
-    data.to_csv('processed_tweets/'+str(tweet_id)+'.csv', index=False)
-
+    try:
+        print('Saving data file as '+str(tweet_id)+'.pickle')
+        data.to_pickle('processed_tweets/'+str(tweet_id)+'.pickle')
+        print('File successfully saved as '+str(tweet_id)+'.pickle')
+    except Exception as e:
+        print('Failed to save data to disk.')
+        print(e)
 
 if __name__=='__main__':
     main()
