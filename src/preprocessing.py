@@ -29,7 +29,7 @@ def remove_stop_words(dataframe):
         .str.replace(' +', ' ')\
         .apply(lambda x: [i for i in x.split() if not i in stop_words])
     return dataframe
-    
+
 def stem_words(dataframe_text_processed):
     ps = PorterStemmer()
     dataframe_text_processed['stemmed'] =
@@ -40,8 +40,31 @@ def stem_words(dataframe_text_processed):
     return dataframe_text_processed
 
 def main():
-    tweet_id = input('Initial tweet id: ')
-    read_data(tweet_id)
+    try:
+        tweet_id = input('Initial tweet id: ')
+        data = read_data(tweet_id)
+        print('Found specified tweet document.')
+    except:
+        print('Specified tweet document id not found.')
+
+    try:
+        print('Removing stop words...')
+        data = remove_stop_words(data)
+        print('Stop words removed.')
+        print('processed_text column added.')
+    except:
+        print('Error in removing stop words.')
+
+    try:
+        print('Stemming words...')
+        data = stem_words(data)
+        print('Stemmed words.')
+        print('stemmed column added.')
+    except:
+        print('Error in stemming words.')
+
+    print('Saving data file as '+str(tweet_id))
+    data.to_csv('processed_tweets/'+str(tweet_id)+'.csv'.index=False)
 
 
 if __name__==__main__:
