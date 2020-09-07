@@ -61,7 +61,7 @@ def main():
         print('Error in stemming words.')
 
     print('Saving data file as '+str(tweet_id))
-    data.to_csv('processed_tweets/'+str(tweet_id)+'.csv'.index=False)
+    data.to_csv('processed_tweets/'+str(tweet_id)+'.csv', index=False)
 
 
 if __name__==__main__:
