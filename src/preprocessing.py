@@ -64,5 +64,5 @@ def main():
     data.to_csv('processed_tweets/'+str(tweet_id)+'.csv', index=False)
 
 
-if __name__==__main__:
+if __name__=='__main__':
     main()
