@@ -32,11 +32,8 @@ def remove_stop_words(dataframe):
 
 def stem_words(dataframe_text_processed):
     ps = PorterStemmer()
-    dataframe_text_processed['stemmed'] =
-        dataframe_text_processed['processed_']\
-        .apply(lambda x: [
-            ps.stem(i) for i in x if i != ''
-        ])
+    dataframe_text_processed['stemmed'] = dataframe_text_processed['processed_']\
+        .apply(lambda x: [ps.stem(i) for i in x if i != ''])
     return dataframe_text_processed
 
 def main():
