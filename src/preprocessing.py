@@ -1,10 +1,12 @@
 import pandas as pd
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+import nltk.sentiment.vader as vd
 import re
 
 def read_data(tweet_id):
-    data = pd.read_csv('tweet_dump/replies_to_'+tweet_id+'.csv')
+    data = pd.read_csv('../data/raw/replies_to_'+tweet_id+'.csv')
     return data
 
 def remove_user_mention(data_series):
@@ -30,11 +32,22 @@ def remove_stop_words(dataframe):
         .apply(lambda x: [i for i in x.split() if not i in stop_words])
     return dataframe
 
-def stem_words(dataframe_text_processed):
+def stem_words(dataframe):
     ps = PorterStemmer()
-    dataframe_text_processed['stemmed'] = dataframe_text_processed['processed_text']\
+    dataframe['stemmed'] = dataframe['processed_text']\
         .apply(lambda x: [ps.stem(i) for i in x if i != ''])
-    return dataframe_text_processed
+    return dataframe
+
+def extract_sentiment(dataframe):
+    sia = vd.SentimentIntensityAnalyzer()
+    dataframe['sentiment_score'] = dataframe['processed_text']\
+    .apply(
+        lambda x: sum([
+            sia.polarity_scores(i)['compound']
+            for i in word_tokenize( ' '.join(x) )
+        ])
+    )
+    return dataframe
 
 def main():
     try:
@@ -63,8 +76,17 @@ def main():
         print(e)
 
     try:
+        print('Determining sentiment score...')
+        data = extract_sentiment(data)
+        print('Sentiment scores assigned.')
+        print('sentiment_score column added.')
+    except Exception as e:
+        print('Error in calculating sentiment score')
+        print(e)
+
+    try:
         print('Saving data file as '+str(tweet_id)+'.pickle')
-        data.to_pickle('processed_tweets/'+str(tweet_id)+'.pickle')
+        data.to_pickle('../data/processed/'+str(tweet_id)+'.pickle')
         print('File successfully saved as '+str(tweet_id)+'.pickle')
     except Exception as e:
         print('Failed to save data to disk.')
