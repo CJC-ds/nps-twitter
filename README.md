@@ -1,7 +1,7 @@
 # nps-twitter
 Net promoter score mined from twitter thread engagement.
 
-## Reason for project
+## Project background
 As organizations become increasingly reliant on Social Media platforms for customer engagement; customers have been given a voice to either complain or praise the efforts of these organizations.
 
 Platforms such as **Twitter** have become increasingly rich in data as customers voluntarily voice their opinions and critique the behaviour and decisions that certain organizations decide to make.
