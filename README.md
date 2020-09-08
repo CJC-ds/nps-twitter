@@ -24,7 +24,7 @@ Previously, the team at **@FallGuysGame** have made an announcement about removi
 The decision was met with mixed opinions.
 People that play **Fall Guys** on steam family share were disappointed and outraged, while those that didn't, praised the team's efforts for combating game cheaters.
 
-### Getting started.
+## Getting started.
 In order to use the code for `get_replies.py`, you are first required to setup a Twitter [developer account](https://developer.twitter.com/en).
 
 Then create a `credentials.ini` file with the format below.
