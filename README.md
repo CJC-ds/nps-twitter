@@ -28,7 +28,7 @@ People that play **Fall Guys** on steam family share were disappointed and outra
 In order to use the code for `get_replies.py`, you are first required to setup a Twitter [developer account](https://developer.twitter.com/en).
 
 Then create a `credentials.ini` file with the format below.
-Insert your own api keys.
+Insert your own api keys. Then add `credentials.ini` file into the `src` folder.
 
 ```
 [API]
