@@ -46,7 +46,6 @@ def main():
     twitter_user = input('Thread owner: ')# e.g. 'eigenbom'
     tweet_id = input('Thread id: ')# e.g. '1299114959792611328'
     api = setup_api_config(path)
-
     try:
         replies = get_replies(
             api=api,
@@ -99,7 +98,7 @@ def main():
             axis=1
         )
         print('Saving...')
-        file_name = 'replies_to_'+tweet_id+'.csv'
+        file_name = '../data/raw/replies_to_'+tweet_id+'.csv'
         df.to_csv(file_name, index=False)
         print('Saved successfully as '+file_name)
         print(str(df.shape[0])+' row retrieved.')
