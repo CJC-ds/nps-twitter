@@ -49,6 +49,17 @@ def extract_sentiment(dataframe):
     )
     return dataframe
 
+def extract_sentiment_stemmed(dataframe):
+        sia = vd.SentimentIntensityAnalyzer()
+        dataframe['sentiment_score_stemmed'] = dataframe['stemmed']\
+        .apply(
+            lambda x: sum([
+                sia.polarity_scores(i)['compound']
+                for i in word_tokenize( ' '.join(x) )
+            ])
+        )
+        return dataframe
+
 def main():
     try:
         tweet_id = input('Initial tweet id: ')
@@ -77,6 +88,15 @@ def main():
 
     try:
         print('Determining sentiment score...')
+        data = extract_sentiment_stemmed(data)
+        print('Sentiment scores assigned to stemmed words.')
+        print('sentiment_score_stemmed column added.')
+    except Exception as e:
+        print('Error in calculating sentiment score on stemmed words.')
+        print(e)
+
+    try:
+        print('Determining stemmed sentiment score...')
         data = extract_sentiment(data)
         print('Sentiment scores assigned.')
         print('sentiment_score column added.')
