@@ -25,6 +25,8 @@ The decision was met with mixed opinions.
 People that play **Fall Guys** on steam family share were disappointed and outraged, while those that didn't, praised the team's efforts for combating game cheaters.
 
 ## Getting started.
+
+### Setting credentials
 In order to use the code for `get_replies.py`, you are first required to setup a Twitter [developer account](https://developer.twitter.com/en).
 
 Then create a `credentials.ini` file with the format below.
@@ -40,3 +42,12 @@ secret=YOUR_ACCESS_SECRET
 [Bearer]
 token=YOUR_BEARER_TOKEN
 ```
+### Getting the data
+
+Run `get_replies.py` and input the twitter username without the '@' symbol. Along with the thread you wish to analyze.
+
+### Process the data
+
+Run `preprocessing.py` and input the twitter thread id. It will check the csv files from the previous step, create additional columns for `processed_text` (Stop words are removed, words tokenized), `stemmed` (words are reduced to their root word, e.g. *likeable* become *like*), `sentiment_score` (performed on `processed_text` a signed float value which determines the overall sentiment of the tweet, where negative values have negative sentiment, and positive values have positive sentiment), `sentiment_score_stemmed` (similar to `sentiment_score`, but performed on stemmed words).
+
+The result will be a `pickle` file (serialized python native data storage). The decision to create a `pickle` instead of csv, is that the datatypes of the original dataset is also stored, and will speed up reading time during the analysis step.
