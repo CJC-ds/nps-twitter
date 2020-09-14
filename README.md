@@ -55,3 +55,18 @@ The result will be a `pickle` file (serialized python native data storage). The 
 ## Analysis
 
 In development.
+
+## Known issues
+
+Currently, the free-tier of twitter API does not support the tracking of replies to specific tweets.
+The work around is to point the cursor object at the specified tweet (we wish to observe), and iterate over all tweets to `@user` and only keep the tweets `in_reply_to` specified tweet.
+
+This method is not ideal:
+
+* Limits on the official free-tier Twitter API only allows us to iterate through 1000 tweets every 15 mins.
+
+* The majority of tweets to specified Twitter `@user` may not necessarily fall within the limits of 1000 cursor iterations. As some tweets to `@user` may be `in_reply_to` another tweet made by `@user`, but only shortly after the tweet of interest being made.
+
+**Not all tweets to specified tweet may be retrieved if a large amount of tweets directed to `@user` straight after the tweet of interest is made.**
+
+Solution in development.
