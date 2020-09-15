@@ -6,6 +6,22 @@ import configparser
 import logging
 import pandas as pd
 import urllib.parse
+from flatten_json import flatten
+
+tweet_fields_of_interest = [
+    'created_at',
+    'id',
+    'full_text',
+    'user_id',
+    'user_name',
+    'user_screen_name',
+    'user_location',
+    'user_description',
+    'user_followers_count',
+    'retweet_count',
+    'favorite_count',
+    'lang'
+]
 
 def setup_api_config(path_to_credentials):
     # Configure the credentials
@@ -41,62 +57,36 @@ def get_replies(api, twitter_user, tweet_id):
     ]
     return replies
 
+def get_field(replies, tweet_field):
+    field_data = [flatten(reply._json)[tweet_field] for reply in replies]
+    field_data_series = pd.Series(
+        field_data,
+        name=tweet_field
+    )
+    return field_data_series
+
 def main():
     path = 'credentials.ini'
     twitter_user = input('Thread owner: ')# e.g. 'eigenbom'
     tweet_id = input('Thread id: ')# e.g. '1299114959792611328'
     api = setup_api_config(path)
+    global tweet_fields_of_interest
     try:
         replies = get_replies(
             api=api,
             twitter_user=twitter_user,
             tweet_id=tweet_id
         )
-        # Save full_text
-        t = [reply._json['full_text'] for reply in replies]
-        t_series = pd.Series(
-            t,
-            name='full_text',
-            dtype='string'
-        )
-        # Save created_at
-        ca = [reply._json['created_at'] for reply in replies]
-        ca_series = pd.Series(
-            ca,
-            name='created_at',
-            dtype='string'
-        )
-        # Save favorite_count
-        fc = [reply._json['favorite_count'] for reply in replies]
-        fc_series = pd.Series(
-            fc,
-            name='favorite_count',
-            dtype='int64'
-        )
-        # Save retweet_count
-        rtc = [reply._json['retweet_count'] for reply in replies]
-        rtc_series = pd.Series(
-            rtc,
-            name='retweet_count',
-            dtype='int64'
-        )
-        # Save user.location
-        ul = [reply._json['user']['location'] for reply in replies]
-        ul_series = pd.Series(
-            ul,
-            name='user_location',
-            dtype='string'
-        )
+
+        # Create a list of tweet_field series objects
+        s_list = [
+            get_field(replies=replies, tweet_field=field)
+            for field in tweet_fields_of_interest
+        ]
 
         # Combine the columns
-        df = pd.concat([
-            t_series,
-            rtc_series,
-            fc_series,
-            ul_series,
-            ca_series],
-            axis=1
-        )
+        df = pd.concat(s_list,axis=1)
+
         print('Saving...')
         file_name = '../data/raw/replies_to_'+tweet_id+'.csv'
         df.to_csv(file_name, index=False)
