@@ -65,28 +65,50 @@ def get_field(replies, tweet_field):
     )
     return field_data_series
 
+def parse_tweet_url(tweet_url):
+    try:
+        if ('twitter' not in tweet_url) & ('status' not in tweet_url):
+            raise ValueError('Invalid twitter link.')
+        link_header_removed = tweet_url.split('com/', 1)
+        user_and_tweet_id = link_header_removed[1].split('/status/')
+        twitter_user = user_and_tweet_id[0] # e.g. 'eigenbom'
+        tweet_id = user_and_tweet_id[1] # e.g. '1299114959792611328'
+
+        return twitter_user, tweet_id
+    except ValueError as e:
+        print(e)
+        quit()
+
 def main():
     path = 'credentials.ini'
-    twitter_user = input('Thread owner: ')# e.g. 'eigenbom'
-    tweet_id = input('Thread id: ')# e.g. '1299114959792611328'
-    api = setup_api_config(path)
+    try:
+        print('Loading credentials')
+        api = setup_api_config(path)
+    except Exception as e:
+        print('Invalid path to credentials.ini. credentials.ini file not found.')
+
+    tweet_url = input('Tweet url: ')
+    print('Parsing link...')
+    twitter_user, tweet_id = parse_tweet_url(tweet_url)
+
     global tweet_fields_of_interest
     try:
+        print('Retrieving tweets from server...')
         replies = get_replies(
             api=api,
             twitter_user=twitter_user,
             tweet_id=tweet_id
         )
-
+        print('Retrieving tweets completed.')
         # Create a list of tweet_field series objects
         s_list = [
             get_field(replies=replies, tweet_field=field)
             for field in tweet_fields_of_interest
         ]
-
         # Combine the columns
         df = pd.concat(s_list,axis=1)
 
+        # Save file to disk.
         print('Saving...')
         file_name = '../data/raw/replies_to_'+tweet_id+'.csv'
         df.to_csv(file_name, index=False)
