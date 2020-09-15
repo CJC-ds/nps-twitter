@@ -60,6 +60,25 @@ def extract_sentiment_stemmed(dataframe):
         )
         return dataframe
 
+def categorize_sentiment(dataframe):
+    def classify(col):
+        sent_class = pd.cut(
+            dataframe[col],
+            [-3, -1.2, 0, 1.2, 3],
+            right=True,
+            include_lowest=True,
+            labels=[
+                'strongly negative',
+                'negative',
+                'positive',
+                'strongly positive'
+            ]
+        )
+        return sent_class
+    dataframe['sent_class'] = classify('sentiment_score')
+    dataframe['sent_class_stemmed'] = classify('sentiment_score_stemmed')
+    return dataframe
+
 def main():
     try:
         tweet_id = input('Initial tweet id: ')
@@ -92,17 +111,26 @@ def main():
         print('Sentiment scores assigned to stemmed words.')
         print('sentiment_score_stemmed column added.')
     except Exception as e:
-        print('Error in calculating sentiment score on stemmed words.')
+        print('Error in calculating sentiment scores on stemmed words.')
         print(e)
 
     try:
-        print('Determining stemmed sentiment score...')
+        print('Determining stemmed sentiment scores...')
         data = extract_sentiment(data)
         print('Sentiment scores assigned.')
         print('sentiment_score column added.')
     except Exception as e:
         print('Error in calculating sentiment score')
         print(e)
+
+    try:
+        print('Categorizing sentiment scores...')
+        data = categorize_sentiment(data)
+        print('Categories assigned.')
+        print('sent_class column added.')
+        print('sent_class_stemmed column added.')
+    except Exception as e:
+        print('Error assigning sentiment categories.')
 
     try:
         print('Saving data file as '+str(tweet_id)+'.pickle')
