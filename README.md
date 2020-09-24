@@ -46,6 +46,27 @@ token=YOUR_BEARER_TOKEN
 
 Run `get_replies.py` and input the twitter username without the '@' symbol. Along with the thread you wish to analyze.
 
+#### Flag options:
+
+Recently implemented (24-09-2020) the passing of a flag option to retrieve
+more tweet replies.
+
+* file_format `-f`:
+    Specify the output file format. Default `csv`.
+    Other option `pickle`.
+
+* search_depth `-s`:
+    Specify the number of tweets to search through. Default `1000`,
+    Note that not all tweets that are searched will be `in_reply_to`
+    specified tweet. If `-s` is greater than 1000 please set `-w` to `on`.
+    Free tier twitter API limits at 1000.
+
+* wait_on_rate_limit `-w`:
+    Wait to retrieve more tweets once API limitations are exceeded.
+    Can be either `on` or `off`. Default `off`.
+
+*e.g.* `https://twitter.com/FallGuysGame/status/1308794965909295104 -f pickle -s 2000 -w on`
+
 ### Process the data
 
 Run `preprocessing.py` and input the twitter thread id. It will check the csv files from the previous step, create additional columns for `processed_text` (Stop words are removed, words tokenized), `stemmed` (words are reduced to their root word, e.g. *likeable* become *like*), `sentiment_score` (performed on `processed_text` a signed float value which determines the overall sentiment of the tweet, where negative values have negative sentiment, and positive values have positive sentiment), `sentiment_score_stemmed` (similar to `sentiment_score`, but performed on stemmed words).
@@ -61,7 +82,7 @@ In development.
 Currently, the free-tier of twitter API does not support the tracking of replies to specific tweets.
 The work around is to point the cursor object at the specified tweet (we wish to observe), and iterate over all tweets to `@user` and only keep the tweets `in_reply_to` specified tweet.
 
-This method is not ideal:
+This method is not ideal (limitations):
 
 * Limits on the official free-tier Twitter API only allows us to iterate through 1000 tweets every 15 mins.
 
@@ -69,4 +90,7 @@ This method is not ideal:
 
 **Not all tweets to specified tweet may be retrieved if a large amount of tweets directed to `@user` straight after the tweet of interest is made.**
 
-Solution in development.
+### Solution
+
+Enabled a feature to sleep/wait approximately 15 minutes when API limits are reached. The `get_replies.py` will continue to search until the specified `search_depth` is met.
+The `search_depth` can be assigned using the flag options (see flag options).
