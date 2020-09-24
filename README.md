@@ -46,7 +46,7 @@ token=YOUR_BEARER_TOKEN
 
 Run `get_replies.py` and input the twitter username without the '@' symbol. Along with the thread you wish to analyze.
 
-#### Flag options:
+#### Flag options
 
 Recently implemented (24-09-2020) the passing of a flag option to retrieve
 more tweet replies.
@@ -70,6 +70,11 @@ more tweet replies.
 
 *e.g.* `https://twitter.com/FallGuysGame/status/1308794965909295104 -f pickle -s 2000 -w on`
 
+#### Data is saved to disk
+
+The saved data retrieved from the Twitter API can be accessed as a csv (default)
+file located at `../data/raw/replies_to_<twitter_id>.csv`
+
 ### Process the data
 
 Run `preprocessing.py` and input the twitter thread id. It will check the csv files from the previous step, create additional columns for `processed_text` (Stop words are removed, words tokenized), `stemmed` (words are reduced to their root word, e.g. *likeable* become *like*), `sentiment_score` (performed on `processed_text` a signed float value which determines the overall sentiment of the tweet, where negative values have negative sentiment, and positive values have positive sentiment), `sentiment_score_stemmed` (similar to `sentiment_score`, but performed on stemmed words).
@@ -78,7 +83,7 @@ The result will be a `pickle` file (serialized python native data storage). The 
 
 ## Analysis
 
-In development.
+**<In development.>**
 
 ## Known issues
 
