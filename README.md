@@ -60,8 +60,8 @@ more tweet replies.
 
     Specify the number of tweets to search through. Default `1000`,
     Note that not all tweets that are searched will be `in_reply_to`
-    specified tweet. If `-s` is greater than 1000 please set `-w` to `on`.
-    Free tier twitter API limits at 1000.
+    specified tweet. If `-s` is greater than 1000; please set `-w` to `on`.
+    Free tier twitter API limits at 1000 per 15 mins.
 
 * **wait_on_rate_limit `-w`**:
 
@@ -83,7 +83,7 @@ The result will be a `pickle` file (serialized python native data storage). The 
 
 ## Analysis
 
-**<In development.>**
+**In development**
 
 ## Known issues
 
