@@ -1,7 +1,7 @@
-import pandas as pd
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+import pandas as pd
 import nltk.sentiment.vader as vd
 import re
 
