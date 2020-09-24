@@ -51,17 +51,20 @@ Run `get_replies.py` and input the twitter username without the '@' symbol. Alon
 Recently implemented (24-09-2020) the passing of a flag option to retrieve
 more tweet replies.
 
-* file_format `-f`:
+* **file_format `-f`**:
+
     Specify the output file format. Default `csv`.
     Other option `pickle`.
 
-* search_depth `-s`:
+* **search_depth `-s`**:
+
     Specify the number of tweets to search through. Default `1000`,
     Note that not all tweets that are searched will be `in_reply_to`
     specified tweet. If `-s` is greater than 1000 please set `-w` to `on`.
     Free tier twitter API limits at 1000.
 
-* wait_on_rate_limit `-w`:
+* **wait_on_rate_limit `-w`**:
+
     Wait to retrieve more tweets once API limitations are exceeded.
     Can be either `on` or `off`. Default `off`.
 
