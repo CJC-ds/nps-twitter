@@ -64,12 +64,13 @@ def categorize_sentiment(dataframe):
     def classify(col):
         sent_class = pd.cut(
             dataframe[col],
-            [-3, -1.2, 0, 1.2, 3],
+            [-3, -1.2, -0.05, 0.05, 1.2, 3],
             right=True,
             include_lowest=True,
             labels=[
                 'strongly negative',
                 'negative',
+                'neutral',
                 'positive',
                 'strongly positive'
             ]
