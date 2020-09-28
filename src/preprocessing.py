@@ -80,9 +80,13 @@ def categorize_sentiment(dataframe):
     dataframe['sent_class_stemmed'] = classify('sentiment_score_stemmed')
     return dataframe
 
-def main():
+def main(*args):
     try:
-        tweet_id = input('Initial tweet id: ')
+        # tweet_id = input('Initial tweet id: ')
+        try:
+            tweet_id = args[0]
+        except:
+            tweet_id = input('Initial tweet id: ')
         data = read_data(tweet_id)
         print('Found specified tweet document.')
     except:
