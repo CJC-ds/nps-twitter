@@ -1,4 +1,3 @@
-# In[]
 import sys
 import time
 import tweepy
@@ -291,7 +290,7 @@ def main():
         # Print summary message to console.
         print(str(df.shape[0])+' rows retrieved.')
         print('Done.')
-        return tweet_id
+        return twitter_user, tweet_id
     except tweepy.error.TweepError as e:
         print('API usage rate exceeded.')
         print(str(e))
