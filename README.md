@@ -70,6 +70,15 @@ more tweet replies.
 
 *e.g.* `https://twitter.com/FallGuysGame/status/1308794965909295104 -f pickle -s 2000 -w on`
 
+#### Embedded
+
+Returns the specified tweet. As an html string for embedding into the Flask app.
+
+#### Pipeline
+
+The pipeline runs `get_replies.py` and `preprocessing.py` to produce a dashboard
+that displays the nps stats for the tweet as a flask web app.
+
 #### Data is saved to disk
 
 The saved data retrieved from the Twitter API can be accessed as a csv (default)
