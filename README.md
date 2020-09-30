@@ -20,7 +20,7 @@ This project aims to retrieve and analyze tweets made to specific twitter thread
 ### @FallGuysGame
 [**@FallGuysGame**](https://twitter.com/FallGuysGame) is a new videogame with a social media following of 1.4 Million users. Each of their tweets have no less than 1k likes. The number of comments made to each twitter thread ranges from 137 to 3.7k.
 
-Previously, the team at **@FallGuysGame** have made an announcement about removing steam family share feature for their game, in efforts to combat cheaters exploiting the system to avoid bans.
+Previously, the team at **@FallGuysGame** have made an [announcement](https://twitter.com/FallGuysGame/status/1298194813247004672) about removing steam family share feature for their game, in efforts to combat cheaters exploiting the system to avoid bans.
 The decision was met with mixed opinions.
 People that play **Fall Guys** on steam family share were disappointed and outraged, while those that didn't, praised the team's efforts for combating game cheaters.
 
@@ -72,7 +72,7 @@ more tweet replies.
 
 #### Embedded
 
-Returns the specified tweet. As an html string for embedding into the Flask app.
+Returns the specified tweet. As an html string for embedding into the Dash app.
 
 #### Pipeline
 
