@@ -45,9 +45,15 @@ def main(*args):
     path = 'credentials.ini'
     api = setup_api_config(path)
     print('Retrieving initial tweet for embedding..')
-    result = api.get_oembed(id=args[0])
+    try:
+        tweet_id = args[0]
+    except Exception as e:
+        print(e)
+        print('No arg passed to main().')
+        tweet_id = input('Tweet id: ')
+    result = api.get_oembed(id=tweet_id)
     storage_path = '../data/embeded_tweets/'
-    file_name = storage_path+'tweet_'+str(args[0])+'.json'
+    file_name = storage_path+'tweet_'+str(tweet_id)+'.json'
     with open(file_name, 'w') as jfile:
         json.dump(result, jfile,
                   indent=4, separators=(', ', ': '), sort_keys=True)
