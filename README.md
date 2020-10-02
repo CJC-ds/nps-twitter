@@ -92,7 +92,18 @@ The result will be a `pickle` file (serialized python native data storage). The 
 
 ## Analysis
 
-**In development**
+**Disclaimer: The notebook will be analyzing Twitter data, data may contain offensive language. This may be upsetting to some people. The project owner holds no responsibility for any damages it may cause to users (mentally and physically). Please view at your own discretion**
+
+Please see the `notebook` folder for exploratory data analysis (EDA)
+of the dataset (post processing).
+
+`EDA.ipynb`:
+
+Numbers 1-3 look at the three sample datasets.
+
+`testing_plotly_layout.ipynb`:
+
+Explores how to make graphs with `plotly` for integration into dash.
 
 ## Known issues
 
