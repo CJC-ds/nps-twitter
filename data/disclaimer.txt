@@ -1,0 +1,4 @@
+Sample datasets provided in this project are extracted from
+the twitter platform.
+There may be inappropriate language used in the dataset.
+Please use at your own discretion.
