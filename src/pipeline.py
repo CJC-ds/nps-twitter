@@ -17,14 +17,14 @@ class data_paths:
 
     def set_raw_data_path(self, raw_file_format):
         self.raw_data_path = '../data/raw/'+str(self.tweet_id)+self.file_format[0]
-    
+
     def set_processed_data_path(self, processed_file_format):
         self.processed_data_path = '../data/processed/replies_to_' + \
             str(tweet_id)+self.file_format[1]
 
-def main():
+def main(*args):
     try:
-        twitter_user, tweet_id = gr()
+        twitter_user, tweet_id = gr(args[0])
     except Exception as e:
         print(e)
         print('Error in retrieving tweets.')
