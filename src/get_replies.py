@@ -249,8 +249,12 @@ def print_welcome():
     print('Flags enabled: -f, -s, -w')
     print('Enter tweet url followed by flag options.')
 
-def main():
-    user_input = input('Tweet url: ')
+def main(*args):
+    try:
+        user_input = args[0]
+    except:
+        print('No args passed to main.')
+        user_input = input('Tweet url: ')
     print('Parsing link...')
     tweet_url, flag_list = raw_input_parser(user_input)
     twitter_user, tweet_id = parse_tweet_url(tweet_url)
