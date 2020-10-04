@@ -10,6 +10,8 @@ dash-core-components==1.12.1
 dash-html-components==1.1.1
 dash-renderer==1.8.2
 dash-table==4.10.1
+Flask==1.1.2
+Flask-Compress==1.5.0
 flatten-json==0.1.7
 future==0.18.2
 idna==2.10
@@ -18,6 +20,7 @@ Jinja2==2.11.2
 joblib==0.16.0
 json-flatten==0.1
 kiwisolver==1.2.0
+lxml==4.5.2
 MarkupSafe==1.1.1
 matplotlib==3.3.0
 nltk==3.5
