@@ -28,7 +28,8 @@ def main(*args):
     except Exception as e:
         print(e)
         print('Error in retrieving tweets.')
-        exit()
+        print('No argument passed to get_replies.py')
+        twitter_user, tweet_id = gr()
     prep(tweet_id)
     dp = data_paths(tweet_id=tweet_id, twitter_user_id=twitter_user)
     tweet_html = ge(tweet_id)
