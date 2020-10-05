@@ -253,7 +253,7 @@ def main(*args):
     try:
         user_input = args[0]
     except:
-        print('No args passed to main.')
+        print('No args passed to get_replies.py main().')
         user_input = input('Tweet url: ')
     print('Parsing link...')
     tweet_url, flag_list = raw_input_parser(user_input)
