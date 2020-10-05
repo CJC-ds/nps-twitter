@@ -269,6 +269,14 @@ fig7.update_layout(
 app.layout = html.Div(
     children=[
         html.H1(children='NPS Tweet analysis on replies'),
+        html.Div(children=
+            [dcc.Input(id='input-box', type='text', placeholder='tweet url'),
+            html.Br(),
+            html.Br(),
+            html.Button('Submit', id='button'),
+            html.Br()]
+        ),
+        html.Br(),
         html.Iframe(srcDoc=emb_tweet, style={
             'height': 410,
             'width': 500
@@ -301,6 +309,10 @@ app.layout = html.Div(
         dcc.Graph(id='top_20', figure=fig7)
     ], style={'textAlign':'center'}
 )
+
+# @app.callback(
+#
+# )
 
 if __name__=='__main__':
     app.run_server(debug=True)
