@@ -1,6 +1,7 @@
 from get_replies import main as gr
 from preprocessing import main as prep
 from get_embedded import main as ge
+from to_gbq import main as up_gbq
 
 class data_paths:
     def __init__(self, tweet_id, twitter_user_id, file_format=('csv', 'pickles')):
@@ -26,13 +27,15 @@ def main(*args):
     try:
         twitter_user, tweet_id = gr(args[0])
     except Exception as e:
+        print('No args passed to pipeline.py main()')
         print(e)
-        print('Error in retrieving tweets.')
-        print('No argument passed to get_replies.py')
         twitter_user, tweet_id = gr()
     prep(tweet_id)
     dp = data_paths(tweet_id=tweet_id, twitter_user_id=twitter_user)
     tweet_html = ge(tweet_id)
+    print('\nUploading to Google Big Query...')
+    up_gbq(tweet_id)
+    print('Done.')
 
 if __name__=='__main__':
     main()
