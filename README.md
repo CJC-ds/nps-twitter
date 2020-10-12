@@ -68,6 +68,17 @@ more tweet replies.
     Wait to retrieve more tweets once API limitations are exceeded.
     Can be either `on` or `off`. Default `off`.
 
+* **big_query `-bq`**:
+
+    Use to Google Big Query to store our tweets. Default `on`.
+    Alternative option `off`.
+    The data stored on BigQuery will automatically update the
+    dashboard on Google Data Studios.
+
+    OAuth GCP key required. Place and reanme key `gbq_key.json` in `src` folder.
+    
+    (Requires GCP - BigQuery and Data Studios)
+
 *e.g.* `https://twitter.com/FallGuysGame/status/1308794965909295104 -f pickle -s 2000 -w on`
 
 #### Embedded
