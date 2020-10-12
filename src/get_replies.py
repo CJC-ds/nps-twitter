@@ -205,12 +205,14 @@ def flag_parser(flag_list):
     flag_conv = {
         'f':'file_format',
         's':'search_depth',
-        'w':'wait_on_rate_limit'
+        'w':'wait_on_rate_limit',
+        'bq': 'big_query'
     }
     default_flags = {
-        'file_format':'csv',
-        'search_depth':1000,
-        'wait_on_rate_limit':'off'
+        'file_format': 'csv',
+        'search_depth': 1000,
+        'wait_on_rate_limit': 'off',
+        'big_query': 'on'
     }
     try:
         user_flags = {flag_conv[flag[0]]:flag[1] for flag in flag_list}
@@ -294,7 +296,7 @@ def main(*args):
         # Print summary message to console.
         print(str(df.shape[0])+' rows retrieved.')
         print('Done.')
-        return twitter_user, tweet_id
+        return twitter_user, tweet_id, flag_dict
     except tweepy.error.TweepError as e:
         print('API usage rate exceeded.')
         print(str(e))
