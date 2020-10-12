@@ -104,7 +104,8 @@ def remove_stop_words(dataframe, custom_stopwords=[]):
         .str.replace('(http\S+)', ' ')\
         .str.replace('([^0-9a-z \t])',' ')\
         .str.replace(' +', ' ')\
-        .apply(lambda x: [i for i in x.split() if not i in stop_words])
+        .apply(lambda x: [i for i in x.split() if not i in stop_words])\
+        .apply(lambda x: list(set(x)))
     return dataframe
 
 def stem_words(dataframe):
@@ -231,7 +232,7 @@ def categorize_sentiment(dataframe):
     def classify(col):
         sent_class = pd.cut(
             dataframe[col],
-            [-3, -1.2, -0.05, 0.05, 1.2, 3],
+            [-4, -1.2, -0.05, 0.05, 1.2, 4],
             right=True,
             include_lowest=True,
             labels=[
