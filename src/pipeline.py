@@ -25,16 +25,20 @@ class data_paths:
 
 def main(*args):
     try:
-        twitter_user, tweet_id = gr(args[0])
+        twitter_user, tweet_id, flag_dict = gr(args[0])
     except Exception as e:
         print('No args passed to pipeline.py main()')
         print(e)
-        twitter_user, tweet_id = gr()
-    prep(tweet_id)
-    dp = data_paths(tweet_id=tweet_id, twitter_user_id=twitter_user)
+        twitter_user, tweet_id, flag_dict = gr()
+    prep(tweet_id, flag_dict)
+    dp = data_paths(
+        tweet_id=tweet_id,
+        twitter_user_id=twitter_user
+    )
     tweet_html = ge(tweet_id)
     print('\nUploading to Google Big Query...')
-    up_gbq(tweet_id)
+    if flag_dict['big_query']!='off':
+        up_gbq(tweet_id)
     print('Done.')
 
 if __name__=='__main__':
