@@ -248,10 +248,11 @@ def print_welcome():
     print('get_replies.py')
     print('--------------')
     print('Get the replies to a twitter thread.')
-    print('Flags enabled: -f, -s, -w')
+    print('Flags enabled: -f, -s, -w, -bq')
     print('Enter tweet url followed by flag options.')
 
 def main(*args):
+    print_welcome()
     try:
         user_input = args[0]
     except:
