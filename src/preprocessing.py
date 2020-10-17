@@ -3,7 +3,9 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import pandas as pd
 import nltk.sentiment.vader as vd
+import pickle
 import re
+import os
 
 def read_data(tweet_id, file_format='csv'):
     """
@@ -281,6 +283,36 @@ def parse_twitter_date(dataframe):
     dataframe['created_at'] = created_at
     return dataframe
 
+def to_full_lang(df, dir_name='../data/lang_dict.pickle'):
+    if not (os.path.exists(dir_name)):
+        import requests
+        import lxml.html as lh
+        # Scrape from the language code table at the url below
+        language_code_url = 'https://www.sitepoint.com/iso-2-letter-language-codes/'
+        r = requests.get(language_code_url)
+        doc = lh.fromstring(r.content)
+        # tr elements hold table rows. We can locate them via the xpath.
+        tr_elements = doc.xpath('//tr')
+        # Create a list of all the text content for each table row element.
+        content = [t.text_content() for t in tr_elements]
+        # Column names are found at content[0], only interested in content (starting at element 1)
+        # Remove the '\n' padding on the left and right of the string
+        # Split the string on the '\n' delimiter
+        parsed_content = [c.lstrip('\n').rstrip('\n').split('\n') for c in content[1:]]
+        # Unpack the parsed content
+        k, v = zip(*parsed_content)
+        # Lower case the code string to match the code in our twitter data.
+        v = [val.lower() for val in v]
+        language_dict = {val:key for key, val in zip(k,v)}
+        language_dict['und'] = 'Undetermined'
+        with open(dir_name, 'wb') as picklefile:
+            pickle.dump(language_dict, picklefile)
+    else:
+        with open(dir_name, 'rb') as picklefile:
+            language_dict = pickle.load(picklefile)
+    df['lang'] = df['lang'].replace(language_dict, regex=True)
+    return df
+
 def main(*args):
     try:
         try:
@@ -356,7 +388,16 @@ def main(*args):
         print('sent_class column added.')
         print('sent_class_stemmed column added.\n')
     except Exception as e:
+        print(e)
         print('Error assigning sentiment categories.\n')
+
+    try:
+        print('Parsing language codes...')
+        data = to_full_lang(data)
+        print('Language codes parsed successfully.\n')
+    except Exception as e:
+        print(e)
+        print('Error parsing language codes.')
 
     try:
         print('Saving data file as '+str(tweet_id)+'.pickle')
