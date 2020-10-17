@@ -185,7 +185,7 @@ def flag_parser(flag_list):
         file_format `-f`:
             Specify the output file format. Default `csv`.
             Other option `pickle`.
-        search_depth `-s`:
+        search_depth `-sd`:
             Specify the number of tweets to search through. Default `1000`,
             Note that not all tweets that are searched will be `in_reply_to`
             specified tweet. If `-s` is greater than 1000 please set `-w` to `on`.
@@ -204,15 +204,17 @@ def flag_parser(flag_list):
     """
     flag_conv = {
         'f':'file_format',
-        's':'search_depth',
+        'sd':'search_depth',
         'w':'wait_on_rate_limit',
-        'bq': 'big_query'
+        'bq': 'big_query',
+        'sw': 'stop_words'
     }
     default_flags = {
         'file_format': 'csv',
         'search_depth': 1000,
         'wait_on_rate_limit': 'off',
-        'big_query': 'on'
+        'big_query': 'on',
+        'stop_words': None
     }
     try:
         user_flags = {flag_conv[flag[0]]:flag[1] for flag in flag_list}
