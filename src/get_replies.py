@@ -24,6 +24,14 @@ tweet_fields_of_interest = [
     'lang'
 ]
 
+default_flags = {
+    'file_format': 'csv',
+    'search_depth': 1000,
+    'wait_on_rate_limit': 'off',
+    'big_query': 'on',
+    'stop_words': []
+}
+
 def setup_api_config(path_to_credentials, flag_list):
     """
     Handles setting up credentials to access the Twitter API via tweepy wrapper.
@@ -170,7 +178,7 @@ def raw_input_parser(string_with_flags):
     try:
         url, flags = string_with_flags.split(' ', 1)
         flags = flags.split('-')
-        flag_list = tuple(flag.split() for flag in flags if flag)
+        flag_list = tuple(flag.split(' ', 1) for flag in flags if flag)
         return url, flag_list
     except ValueError as ve:
         print('No specified flags. Using default options.')
@@ -209,18 +217,10 @@ def flag_parser(flag_list):
         'bq': 'big_query',
         'sw': 'stop_words'
     }
-    default_flags = {
-        'file_format': 'csv',
-        'search_depth': 1000,
-        'wait_on_rate_limit': 'off',
-        'big_query': 'on',
-        'stop_words': None
-    }
+    global default_flags
     try:
         user_flags = {flag_conv[flag[0]]:flag[1] for flag in flag_list}
         merged_flags = {**default_flags, **user_flags}
-        # if isinstance(merged_flags['search_depth'], int):
-        #     raise TypeError('search_depth is not an integer')
         try:
             merged_flags['search_depth'] = int(merged_flags['search_depth'])
         except TypeError as te:
@@ -228,6 +228,9 @@ def flag_parser(flag_list):
             print('Flag `search_depth` specified is not an integer')
             print('Set `search_depth to default...`')
             merged_flags['search_depth'] = 1000
+        if not (not merged_flags['stop_words']):
+            merged_flags['stop_words'] = merged_flags['stop_words'].split(',')
+            merged_flags['stop_words'] = [x.strip() for x in merged_flags['stop_words']]
         return merged_flags
     except KeyError as ke:
         print(ke)
@@ -250,7 +253,7 @@ def print_welcome():
     print('get_replies.py')
     print('--------------')
     print('Get the replies to a twitter thread.')
-    print('Flags enabled: -f, -s, -w, -bq')
+    print('Flags enabled: -f, -s, -w, -bq, -sw')
     print('Enter tweet url followed by flag options.')
 
 def main(*args):
