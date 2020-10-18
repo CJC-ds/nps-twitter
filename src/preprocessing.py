@@ -1,6 +1,7 @@
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from get_replies import default_flags
 import pandas as pd
 import nltk.sentiment.vader as vd
 import pickle
@@ -365,7 +366,11 @@ def main(*args):
 
     try:
         print('Removing stop words...')
-        data = remove_stop_words(data)
+        try:
+            temp_dict = args[1]
+        except:
+            temp_dict = default_flags
+        data = remove_stop_words(data, default_flags['stop_words'])
         print('Stop words removed.')
         print('processed_text column added.\n')
     except Exception as e:
