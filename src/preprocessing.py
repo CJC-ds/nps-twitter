@@ -284,6 +284,24 @@ def parse_twitter_date(dataframe):
     return dataframe
 
 def to_full_lang(df, dir_name='../data/lang_dict.pickle'):
+    """
+    Parses language codes in dataframe column `lang` using a
+    dictionary containing key/value pairs that map language
+    code to the full name of a language.
+    The dictionary object is scraped from:
+    https://www.sitepoint.com/iso-2-letter-language-codes/
+    and saved to disk if not exist.
+
+    Args:
+        df (pandas.DataFrame):
+            Twitter dataset containing tweets.
+            Dataset must contain a `lang` column.
+    Returns:
+        pandas.DataFrame:
+            Same as input dataframe except `lang` column is altered to
+            represent languages by their full name rather than ISO code.
+    """
+    assert 'lang' in df.columns.values.tolist(), "`lang` column not found in pandas.DataFrame."
     if not (os.path.exists(dir_name)):
         import requests
         import lxml.html as lh
