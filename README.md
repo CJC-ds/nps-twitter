@@ -1,6 +1,9 @@
 # nps-twitter
 Net promoter score mined from twitter thread engagement.
 
+For twitter accounts with large followings, we can quantitatively measure how audience/customers feel about an announcement of a business decision or product.
+It can be used to quickly address a PR disaster before it happens, or determine if the company is moving towards a direction that your customers believe in.
+
 ## Project background
 As organizations become increasingly reliant on Social Media platforms for customer engagement; customers have been given a voice to either complain or praise the efforts of these organizations.
 
